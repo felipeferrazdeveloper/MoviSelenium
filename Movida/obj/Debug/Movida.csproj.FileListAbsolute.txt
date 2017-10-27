@@ -17,3 +17,11 @@ C:\git\MoviSelenium\Movida\bin\Debug\Movida.pdb
 C:\git\MoviSelenium\Movida\bin\Debug\WebDriver.dll
 C:\git\MoviSelenium\Movida\bin\Debug\WebDriver.xml
 C:\git\MoviSelenium\Movida\obj\Debug\Movida.csprojResolveAssemblyReference.cache
+C:\GitHub\MoviSelenium\Movida\bin\Debug\Movida.exe.config
+C:\GitHub\MoviSelenium\Movida\obj\Debug\Movida.exe
+C:\GitHub\MoviSelenium\Movida\obj\Debug\Movida.pdb
+C:\GitHub\MoviSelenium\Movida\bin\Debug\Movida.exe
+C:\GitHub\MoviSelenium\Movida\bin\Debug\Movida.pdb
+C:\GitHub\MoviSelenium\Movida\bin\Debug\WebDriver.dll
+C:\GitHub\MoviSelenium\Movida\bin\Debug\WebDriver.xml
+C:\GitHub\MoviSelenium\Movida\obj\Debug\Movida.csprojResolveAssemblyReference.cache
