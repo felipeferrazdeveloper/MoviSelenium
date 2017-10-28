@@ -4,3 +4,15 @@
 [1026/000520.145:ERROR:process_reader_win.cc(123)] NtOpenThread: {Acesso Negado} Um processo solicitou acesso a um objeto, mas o direito de acesso não lhe foi concedido.  (0xc0000022)
 [1026/000520.146:ERROR:exception_snapshot_win.cc(87)] thread ID 9604 not found in process
 [1026/000520.146:WARNING:crash_report_exception_handler.cc(62)] ProcessSnapshotWin::Initialize failed
+[1027/233340.773:ERROR:process_info.cc(350)] VirtualQueryEx: Acesso negado. (0x5)
+[1027/233340.806:ERROR:process_info.cc(571)] ReadMemoryInfo failed
+[1027/233340.807:ERROR:process_reader_win.cc(242)] ReadMemory at 0x7fef5921988 of 12 bytes failed: Somente uma parte de um pedido ReadProcessMemory ou WriteProcessMemory foi concluída. (0x12B)
+[1027/233340.817:WARNING:process_snapshot_win.cc(72)] ReadMemory ExceptionInformation failed
+[1027/233340.817:WARNING:crash_report_exception_handler.cc(62)] ProcessSnapshotWin::Initialize failed
+[1027/233340.817:ERROR:scoped_process_suspend.cc(39)] NtResumeProcess: Tentou-se acessar um processo de saída.  (0xc000010a)
+[1027/234932.486:ERROR:process_reader_win.cc(123)] NtOpenThread: {Acesso Negado} Um processo solicitou acesso a um objeto, mas o direito de acesso não lhe foi concedido.  (0xc0000022)
+[1027/234932.503:ERROR:exception_snapshot_win.cc(87)] thread ID 9552 not found in process
+[1027/234932.503:WARNING:crash_report_exception_handler.cc(62)] ProcessSnapshotWin::Initialize failed
+[1027/234932.486:ERROR:process_reader_win.cc(123)] NtOpenThread: {Acesso Negado} Um processo solicitou acesso a um objeto, mas o direito de acesso não lhe foi concedido.  (0xc0000022)
+[1027/234932.503:ERROR:exception_snapshot_win.cc(87)] thread ID 9996 not found in process
+[1027/234932.503:WARNING:crash_report_exception_handler.cc(62)] ProcessSnapshotWin::Initialize failed

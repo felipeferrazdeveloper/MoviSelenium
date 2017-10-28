@@ -27,3 +27,5 @@ C:\GitHub\MoviSelenium\Movida\bin\Debug\WebDriver.xml
 C:\GitHub\MoviSelenium\Movida\obj\Debug\Movida.csprojResolveAssemblyReference.cache
 C:\GitHub\MoviSelenium\Movida\bin\Debug\WebDriver.Support.dll
 C:\GitHub\MoviSelenium\Movida\bin\Debug\WebDriver.Support.xml
+C:\git\MoviSelenium\Movida\bin\Debug\WebDriver.Support.dll
+C:\git\MoviSelenium\Movida\bin\Debug\WebDriver.Support.xml

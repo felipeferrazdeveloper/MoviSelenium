@@ -25,11 +25,13 @@ namespace Movida
             
             //Clica no Menu principal
             driver.FindElement(By.ClassName("cd-dropdown-trigger")).Click();
-            Thread.Sleep(3000);
+
+            aguardarVisibilidadeDoElemento("//ul[@class='cd-dropdown-content']", driver);
+
             Actions mouseMove = new Actions(driver);
             mouseMove.MoveToElement(driver.FindElement(By.XPath("//div[@class= 'cd-dropdown-wrapper']/*/ul//a[@title='A Movida']"))).Build().Perform();
-            //Thread.Sleep(5000);
-            driver.FindElement(By.XPath("//div[@class= 'cd-dropdown-wrapper']//ul//a[@title='A Movida']/following-sibling::ul//a[@title='Parcerias']")).Click();
+
+            aguardarVisibilidadeElemento("//div[@class= 'cd-dropdown-wrapper']//ul//a[@title='A Movida']/following-sibling::ul//a[@title='Parcerias']", driver).Click();
             
             var parcerias = driver.FindElements(By.XPath("//div[@class='row parcerias-list']//div")).Count;       
             for(int i =1; i<=parcerias; i++)
@@ -47,45 +49,60 @@ namespace Movida
             }     
             driver.Close();
         }
-        public static void setOrigem(string loja, string data, string hora, string minuto, IWebDriver context)
+        public static void setOrigem(string loja, string data, string hora, string minuto, IWebDriver driver)
         {
 
-            context.FindElement(By.Id("LojaR")).Clear();
-            context.FindElement(By.Id("LojaR")).SendKeys(loja);
-            //Aguardar("//ul[@class='ui-menu-item']", context);
-            Thread.Sleep(8500);
-            context.FindElement(By.Id("LojaR")).SendKeys(Keys.Enter);
+            driver.FindElement(By.Id("LojaR")).Clear();
+            driver.FindElement(By.Id("LojaR")).SendKeys(loja);
 
-            context.FindElement(By.Id("R_Data")).Clear();
-            context.FindElement(By.Id("R_Data")).SendKeys(data);
-            context.FindElement(By.Id("R_Data")).SendKeys(Keys.Tab);
+            aguardarVisibilidadeDoElemento("//li[@class='ui-menu-item']", driver);
             
-            var horaInput = new SelectElement(context.FindElement(By.XPath("//Select[@name='R_Hora']")));
+            driver.FindElement(By.Id("LojaR")).SendKeys(Keys.Enter);
+
+            driver.FindElement(By.Id("R_Data")).Clear();
+            driver.FindElement(By.Id("R_Data")).SendKeys(data);
+            driver.FindElement(By.Id("R_Data")).SendKeys(Keys.Tab);
+            
+            var horaInput = new SelectElement(driver.FindElement(By.XPath("//Select[@name='R_Hora']")));
             horaInput.SelectByText(hora);
 
-            var minutoInput = new SelectElement(context.FindElement(By.XPath("//Select[@name='R_Minuto']")));
+            var minutoInput = new SelectElement(driver.FindElement(By.XPath("//Select[@name='R_Minuto']")));
             minutoInput.SelectByText(minuto);
         }
        
 
-        public static void setDestino(string loja, string data, string hora, string minuto, IWebDriver context)
+        public static void setDestino(string loja, string data, string hora, string minuto, IWebDriver driver)
         {
-            context.FindElement(By.Id("LojaD")).Clear();
-            context.FindElement(By.Id("LojaD")).SendKeys(loja);
-            //Aguardar("//ul[@class='ui-menu-item']", context);
-            Thread.Sleep(8500);
-            context.FindElement(By.Id("LojaD")).SendKeys(Keys.Enter);
+            driver.FindElement(By.Id("LojaD")).Clear();
+            driver.FindElement(By.Id("LojaD")).SendKeys(loja);
 
-            context.FindElement(By.Id("D_Data")).Clear();
-            context.FindElement(By.Id("D_Data")).SendKeys(data);
-            context.FindElement(By.Id("D_Data")).SendKeys(Keys.Tab);
+            aguardarVisibilidadeDoElemento("//li[@class='ui-menu-item']", driver);
+            driver.FindElement(By.Id("LojaD")).SendKeys(Keys.Enter);
 
-            var horaInput = new SelectElement(context.FindElement(By.XPath("//Select[@name='D_Hora']")));
+            driver.FindElement(By.Id("D_Data")).Clear();
+            driver.FindElement(By.Id("D_Data")).SendKeys(data);
+            driver.FindElement(By.Id("D_Data")).SendKeys(Keys.Tab);
+
+            var horaInput = new SelectElement(driver.FindElement(By.XPath("//Select[@name='D_Hora']")));
             horaInput.SelectByText(hora);
 
-            var minutoInput = new SelectElement(context.FindElement(By.XPath("//Select[@name='D_Minuto']")));
+            var minutoInput = new SelectElement(driver.FindElement(By.XPath("//Select[@name='D_Minuto']")));
             minutoInput.SelectByText(minuto);
-        }        
+        }
+
+        public static void aguardarVisibilidadeDoElemento(string xPath, IWebDriver driver)
+        {
+            var wait = new WebDriverWait(driver, TimeSpan.FromMinutes(1));
+            IWebElement element = wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(xPath)));
+        }
+
+        public static IWebElement aguardarVisibilidadeElemento(string xPath, IWebDriver driver)
+        {
+            var wait = new WebDriverWait(driver, TimeSpan.FromMinutes(1));
+            IWebElement element = wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(xPath)));
+
+            return element;
+        }
     }
     
 }
