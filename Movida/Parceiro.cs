@@ -11,7 +11,7 @@ namespace Movida
     {
         public List<Carro> carros { get; set; }
         public string nome { get; set; }
-        public string media { get; set; }
+        public double media { get; set; }
 
         public Parceiro()
         {
@@ -21,19 +21,22 @@ namespace Movida
 
         public void adicionarCarro(Carro carro)
         {
-            if(carro != null)
+            if (carro != null)
+            {
                 this.carros.Add(carro);
+                this.media = calcularMediaPreco();
+            }
         }
 
-        public string calcularMediaPreco()
+        public double calcularMediaPreco()
         {
             double soma = 0;
             foreach (var carro in carros)
             {
-                soma = double.Parse(carro.preco) + soma;
+                soma = carro.preco + soma;
             }
 
-            return media = (soma / carros.Count).ToString("c");
+            return media = soma / carros.Count;
         }            
     }
 }

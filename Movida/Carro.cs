@@ -9,12 +9,12 @@ namespace Movida
     class Carro
     {
         public string modelo { get; set; }
-        public string preco { get; set; }
+        public double preco { get; set; }
 
-        public Carro()
+        public Carro(string modelo, double preco)
         {
-            this.modelo = null;
-            this.preco = null;
+            this.modelo = modelo;
+            this.preco = preco;
         }
     }
 }

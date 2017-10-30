@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenQA.Selenium.Support.UI;
 using System.Threading;
+using System.IO;
 
 namespace Movida
 {
@@ -17,6 +18,7 @@ namespace Movida
     {
         static IWebDriver driver = new ChromeDriver();
         static WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromMinutes(1));
+        static string destinoArquivoTxt = @"C:\git\MoviSelenium\Relatorio.txt";
 
         static void Main(string[] args)
         {
@@ -43,16 +45,12 @@ namespace Movida
                         var nomeCarro = capturarTexto(string.Format("//div[@id='DIV_Escolha']//div[{0}]//div//h2//following-sibling::b[1]", cont));
                         nomeCarro = removerCaracterTexto(nomeCarro, ")", "(");
 
-                        var valorCarro = capturarTexto(string.Format("//div[@id='DIV_Escolha']//div[{0}]//div[@class='valor']", cont));
+                        var valorCarro = double.Parse(capturarTexto(string.Format("//div[@id='DIV_Escolha']//div[{0}]//div[@class='valor']", cont)));
 
-                        var carro = new Carro();
-                        carro.modelo = nomeCarro;
-                        carro.preco = valorCarro;
+                        var carro = new Carro(nomeCarro, valorCarro);
                         parceiro.adicionarCarro(carro);
                     }
-                    parceiro.calcularMediaPreco();
                     parcerias.Add(parceiro);
-                    //Console.WriteLine(parceiro.nome + " ----- R$" + parceiro.media);
                     inicializar("http://www.movida.com.br");
                 }
                 navegarParaParcerias();
@@ -65,7 +63,7 @@ namespace Movida
 
         public static void inicializar(string site)
         {
-            var tempo = TimeSpan.FromSeconds(5);
+            var tempo = TimeSpan.FromSeconds(4);
             driver.Manage().Timeouts().ImplicitWait = tempo;
 
             driver.Navigate().GoToUrl(site);
@@ -116,7 +114,7 @@ namespace Movida
         {
             var fail = false;
             var xpath = String.Format("//div[@class='row parcerias-list']//div[{0}]", i);
-            driver.FindElement(By.XPath(xpath)).Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(xpath))).Click();
 
             if (!driver.Url.Contains("entidades-de-classe"))
             {
@@ -196,46 +194,62 @@ namespace Movida
 
         public static void aguardarPaginaCarregar()
         {
-            IWait<IWebDriver> wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30.00));
+            IWait<IWebDriver> wait = new WebDriverWait(driver, TimeSpan.FromSeconds(60.00));
             wait.Until(driver1 => ((IJavaScriptExecutor)driver).ExecuteScript("return document.readyState").Equals("complete"));
         }
 
         public static void ordenarMelhoresParceiros(List<Parceiro> parceiros)
         {
-            List<Parceiro> listaOrdenada = parceiros.OrderByDescending(o => o.media).ToList();
+            limparListaParceiros(parceiros);
+            List<Parceiro> listaOrdenada = parceiros.OrderBy(o => o.media).ToList();
 
-            Console.WriteLine("\n\nLista de parceiros ordenada do menos rentável para o mais rentável: \n");
+            File.AppendAllText(destinoArquivoTxt, "\n\nLista de parceiros ordenada: \n");
             foreach (var order in listaOrdenada)
             {
-                if (order.media != null)
-                    Console.WriteLine("-> " + order.nome + " (média: " + order.media + ")\n");
+                if (order.media != 0)
+                    File.AppendAllText(destinoArquivoTxt, "-> " + order.nome + " (media: " + order.media.ToString("c") + ")\n");
                 else
-                    Console.WriteLine(order.nome + " :::: Error! Consulta falhou.");
+                    File.AppendAllText(destinoArquivoTxt, order.nome + " :::: Erro! Consulta falhou. \n");
             }
         }
 
         public static void exibirOrdem(List<Parceiro> parceiros)
         {
-            Console.WriteLine("\n\nLista de parceiros: \n");
+            limparListaParceiros(parceiros);
+            File.AppendAllText(destinoArquivoTxt, "\n\nLista de parceiros: \n");
             foreach (var order in parceiros)
             {
-                if(order.media != null)
-                    Console.WriteLine("-> " + order.nome + " (média: " + order.media + ")\n");
+                if (order.media != 0)
+                    File.AppendAllText(destinoArquivoTxt, "-> " + order.nome + " (media: " + order.media.ToString("c") + ")\n");
                 else
-                    Console.WriteLine(order.nome + " :::: Error! Consulta falhou.");
+                    File.AppendAllText(destinoArquivoTxt, order.nome + " :::: Erro! Consulta falhou.\n");
             }
         }
 
         public static void exibirTabela(List<Parceiro> parceiros)
         {
-            string text = string.Empty;
+            limparListaParceiros(parceiros);
             foreach (var parceiro in parceiros)
             {
-                Console.WriteLine("\n\n------ " + parceiro.nome + " ------\n");
+                File.AppendAllText(destinoArquivoTxt, "\n\n------ " + parceiro.nome + " ------\n");
                 foreach (var carro in parceiro.carros)
                 {
-                    Console.WriteLine("-> " + carro.modelo + " = " + carro.preco + "\n");
+                    File.AppendAllText(destinoArquivoTxt, "-> " + carro.modelo + " = " + carro.preco.ToString("c") + "\n");
                 }
+            }
+        }
+
+        public static void limparListaParceiros(List<Parceiro> parceiros)
+        {
+            List<Parceiro> listaDeRemocao = new List<Parceiro>();
+            foreach (var parceiro in parceiros)
+            {
+                if (parceiro.carros.Count == 0)
+                    listaDeRemocao.Add(parceiro);
+            }
+            foreach(var parceiro in listaDeRemocao)
+            {
+                parceiros.Remove(parceiro);
             }
         }
     }
