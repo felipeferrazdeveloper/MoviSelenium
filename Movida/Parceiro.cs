@@ -33,10 +33,10 @@ namespace Movida
             double soma = 0;
             foreach (var carro in carros)
             {
+
                 soma = carro.preco + soma;
             }
-
             return media = soma / carros.Count;
-        }            
+        }
     }
 }
